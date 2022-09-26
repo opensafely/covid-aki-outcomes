@@ -1,5 +1,4 @@
 #Study definition for people with SARS-CoV-2 infection across England on OpenSAFELY-TPP for descriptive statistics
-#Populations will be matched region by region before appending matched datasets
 
 #Exclusion variables:
 # - kidney_replacement_therapy before covid_diagnosis_date
