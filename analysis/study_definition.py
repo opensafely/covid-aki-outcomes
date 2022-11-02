@@ -736,7 +736,7 @@ study = StudyDefinition(
         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
         "incidence": 0.6,
       },
-    )
+    ),
     gp_count_12m=patients.with_gp_consultations(
       between=["hospital_covid_date", "hospital_covid_date + 12 months"], # need to update it to ISARIC hospital admission date
       returning="number_of_matches_in_period",
@@ -744,7 +744,7 @@ study = StudyDefinition(
         "int": {"distribution": "normal", "mean": 12, "stddev": 3},
         "incidence": 0.8,
       },
-    )
+    ),
     
 **common_variables
 )
