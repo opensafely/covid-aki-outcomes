@@ -693,5 +693,58 @@ study = StudyDefinition(
     }
     ),
 
+    # cause of death (ICD-10 code of underlying_cause_of_death)
+    death_date_ONS = patients.died_from_any_cause(
+      returning = "date_of_death",
+      date_format = "YYYY-MM-DD",
+      on_or_after = "covid_diagnosis_date",
+      return_expectations = {
+        "date": {"earliest": "2020-01-01", "latest": "today"},
+        "incidence": 0.1
+      },
+    ),
+    death_code = patients.died_from_any_cause(
+      returning = "underlying_cause_of_death",
+      on_or_after = "covid_diagnosis_date",
+    ),  
+
+    # readmission to hospital and the primary diagnosis
+    readmission_date = patients.admitted_to_hospital(
+      returning = "date_admitted",
+      with_patient_classification = ["1"], # ordinary admissions only - exclude day cases and regular attenders
+      on_or_after = "hospital_covid_date", # need to update it to ISARIC hospital admission date
+      find_first_match_in_period = True,
+      date_format = "YYYY-MM-DD",
+      return_expectations = {
+        "date": {"earliest": "2020-01-01"},
+        "rate": "uniform",
+        "incidence": 0.2
+      },
+    ),    
+    readmission_primary_code = patients.admitted_to_hospital(
+      returning = "primary_diagnosis",
+      with_patient_classification = ["1"], # ordinary admissions only - exclude day cases and regular attenders
+      on_or_after = "hospital_covid_date", # need to update it to ISARIC hospital admission date
+      find_first_match_in_period = True,
+    ),
+
+    # number of GP consultations within 6 or 12 months (Warning: inaccurate to be used to reflect real clinician-patient interactions)
+    gp_count=patients.with_gp_consultations(
+      between=["hospital_covid_date", "hospital_covid_date + 6 months"], # need to update it to ISARIC hospital admission date
+      returning="number_of_matches_in_period",
+      return_expectations={
+        "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+        "incidence": 0.6,
+      },
+    )
+    gp_count_12m=patients.with_gp_consultations(
+      between=["hospital_covid_date", "hospital_covid_date + 12 months"], # need to update it to ISARIC hospital admission date
+      returning="number_of_matches_in_period",
+      return_expectations={
+        "int": {"distribution": "normal", "mean": 12, "stddev": 3},
+        "incidence": 0.8,
+      },
+    )
+    
 **common_variables
 )
