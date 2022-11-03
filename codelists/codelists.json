@@ -221,6 +221,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/bangzheng/creatinine-value/7d319079/",
       "downloaded_at": "2022-08-19 13:50:28.279943Z",
       "sha": "4628fc44b49144576a578c1d2e13435aa6296af3"
+    },
+    "opensafely-sick-notes-snomed.csv": {
+      "id": "opensafely/sick-notes-snomed/0f8ffb90",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/sick-notes-snomed/0f8ffb90/",
+      "downloaded_at": "2022-11-03 12:08:51.348350Z",
+      "sha": "fbb3cde7c16769aeb5c6cfa825834224f667fac7"
     }
   }
 }
