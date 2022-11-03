@@ -754,5 +754,25 @@ study = StudyDefinition(
       },
     ),
     
+    # number of sick notes (use with caution)
+    sick_notes_count=patients.with_these_clinical_events(
+        sick_notes,
+        returning="number_of_matches_in_period",
+        between=["hospital_covid_date", "hospital_covid_date + 6 months"], # need to update it to ISARIC hospital admission date
+        return_expectations={
+          "int": {"distribution": "normal", "mean": 2, "stddev": 1},
+          "incidence": 0.2,
+        },    
+    ),
+    sick_notes_count_12m=patients.with_these_clinical_events(
+        sick_notes,
+        returning="number_of_matches_in_period",
+        between=["hospital_covid_date", "hospital_covid_date + 12 months"], # need to update it to ISARIC hospital admission date
+        return_expectations={
+          "int": {"distribution": "normal", "mean": 4, "stddev": 1},
+          "incidence": 0.4,
+        },    
+    ),
+
 **common_variables
 )
