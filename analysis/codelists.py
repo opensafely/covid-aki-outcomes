@@ -132,6 +132,12 @@ pneumonia_codelist = codelist_from_csv(
     system="icd10",
     column="ICD code",
 )
+#sick notes
+sick_notes = codelist_from_csv(
+    "codelists/opensafely-sick-notes-snomed.csv",
+    system="snomed",
+    column="code",
+)
 
 #Covariable codes
 
