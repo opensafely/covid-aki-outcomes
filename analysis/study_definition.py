@@ -693,5 +693,42 @@ study = StudyDefinition(
     }
     ),
 
+    # cause of death (ICD-10 code of underlying_cause_of_death)
+    death_date_ONS = patients.died_from_any_cause(
+      returning = "date_of_death",
+      date_format = "YYYY-MM-DD",
+      on_or_after = "covid_diagnosis_date",
+      return_expectations = {
+        "date": {"earliest": "2020-01-01", "latest": "today"},
+        "incidence": 0.1
+      },
+    ),
+    death_code = patients.died_from_any_cause(
+      returning = "underlying_cause_of_death",
+      on_or_after = "covid_diagnosis_date",
+    ),  
+
+    # readmission to hospital and the primary diagnosis
+    readmission_date = patients.admitted_to_hospital(
+      returning = "date_admitted",
+      with_patient_classification = ["1"], # ordinary admissions only - exclude day cases and regular attenders
+      on_or_after = "hospital_covid_date", # need to update it to ISARIC hospital admission date
+      find_first_match_in_period = True,
+      date_format = "YYYY-MM-DD",
+      return_expectations = {
+        "date": {"earliest": "2020-01-01"},
+        "rate": "uniform",
+        "incidence": 0.2
+      },
+    ),    
+    readmission_primary_code = patients.admitted_to_hospital(
+      returning = "primary_diagnosis",
+      with_patient_classification = ["1"], # ordinary admissions only - exclude day cases and regular attenders
+      on_or_after = "hospital_covid_date", # need to update it to ISARIC hospital admission date
+      find_first_match_in_period = True,
+    ),
+
+
+    
 **common_variables
 )
