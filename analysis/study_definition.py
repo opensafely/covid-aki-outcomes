@@ -706,6 +706,10 @@ study = StudyDefinition(
     death_code = patients.died_from_any_cause(
       returning = "underlying_cause_of_death",
       on_or_after = "covid_diagnosis_date",
+      return_expectations={
+            "category": {"ratios": {"A00": 0.8, "B00": 0.2}},
+            "incidence": 0.8,
+      },
     ),  
 
     # readmission to hospital and the primary diagnosis
@@ -726,9 +730,29 @@ study = StudyDefinition(
       with_patient_classification = ["1"], # ordinary admissions only - exclude day cases and regular attenders
       on_or_after = "hospital_covid_date", # need to update it to ISARIC hospital admission date
       find_first_match_in_period = True,
+      return_expectations={
+            "category": {"ratios": {"A00": 0.8, "B00": 0.2}},
+            "incidence": 0.8,
+      },
     ),
 
-
+    # number of GP consultations within 6 or 12 months (Warning: inaccurate to be used to reflect real clinician-patient interactions)
+    gp_count=patients.with_gp_consultations(
+      between=["hospital_covid_date", "hospital_covid_date + 6 months"], # need to update it to ISARIC hospital admission date
+      returning="number_of_matches_in_period",
+      return_expectations={
+        "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+        "incidence": 0.6,
+      },
+    ),
+    gp_count_12m=patients.with_gp_consultations(
+      between=["hospital_covid_date", "hospital_covid_date + 12 months"], # need to update it to ISARIC hospital admission date
+      returning="number_of_matches_in_period",
+      return_expectations={
+        "int": {"distribution": "normal", "mean": 12, "stddev": 3},
+        "incidence": 0.8,
+      },
+    ),
     
 **common_variables
 )
